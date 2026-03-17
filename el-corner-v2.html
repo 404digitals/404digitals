@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>El Corner – Hamburguesas · Posada de Llanes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #060705;
+      --dark: #0c0e0b;
+      --panel: #111310;
+      --border: rgba(255,255,255,0.06);
+      --green: #3d8c32;
+      --green2: #52b545;
+      --lime: #a8e63d;
+      --white: #f0ede5;
+      --cream: #ddd8cc;
+      --muted: #5e6358;
+      --display: 'Anton', sans-serif;
+      --serif: 'DM Serif Display', serif;
+      --body: 'Inter', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--white); font-family: var(--body); overflow-x: hidden; }
+
+    /* SCANLINE top bar */
+    .topbar {
+      background: var(--lime);
+      color: var(--bg);
+      font-family: var(--display);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.45rem 0;
+      text-align: center;
+      position: relative;
+      z-index: 600;
+    }
+    .topbar span { opacity: 0.6; margin: 0 1.5rem; }
+
+    /* HEADER */
+    header {
+      position: sticky; top: 0; z-index: 500;
+      background: var(--bg);
+      border-bottom: 2px solid var(--white);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 4vw;
+      height: 62px;
+    }
+    .nav-left { display: flex; gap: 2rem; }
+    .nav-left a, .nav-right a {
+      font-family: var(--body); font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-left a:hover, .nav-right a:hover { color: var(--lime); }
+    .nav-right { display: flex; gap: 2rem; justify-content: flex-end; align-items: center; }
+    .nav-cta {
+      background: var(--lime) !important; color: var(--bg) !important;
+      padding: 0.45rem 1.2rem; font-weight: 600 !important;
+    }
+    .logo-center {
+      font-family: var(--display);
+      font-size: 1.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      text-align: center;
+    }
+    .logo-center em { color: var(--lime); font-style: normal; }
+
+    /* HERO — full-bleed editorial */
+    #hero {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      min-height: calc(100vh - 88px);
+      border-bottom: 2px solid var(--white);
+    }
+    .hero-kicker {
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      text-align: center;
+    }
+    .kicker-item {
+      padding: 0.8rem 1rem;
+      font-family: var(--body); font-size: 0.72rem;
+      font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); border-right: 1px solid var(--border);
+    }
+    .kicker-item:last-child { border-right: none; }
+    .kicker-item strong { color: var(--lime); }
+
+    .hero-main {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+    .hero-text-col {
+      padding: 5vw 4vw 5vw 6vw;
+      display: flex; flex-direction: column; justify-content: space-between;
+      border-right: 2px solid var(--white);
+    }
+    .hero-eyebrow {
+      font-family: var(--body); font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--lime);
+      margin-bottom: 2rem;
+    }
+    h1 {
+      font-family: var(--display);
+      font-size: clamp(4.5rem, 10vw, 10rem);
+      line-height: 0.88;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--white);
+      flex: 1;
+    }
+    h1 .italic-line {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(3.5rem, 8vw, 8rem);
+      color: var(--lime);
+      display: block;
+      letter-spacing: -0.02em;
+    }
+    .hero-bottom {
+      margin-top: 3rem;
+      display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+    }
+    .hero-sub {
+      font-size: 0.9rem; color: var(--muted); line-height: 1.75;
+      max-width: 340px;
+    }
+
+    .hero-right-col {
+      display: flex; flex-direction: column;
+    }
+    .hero-burger-box {
+      flex: 1;
+      background: var(--dark);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-burger-box::before {
+      content: 'BURGER';
+      position: absolute;
+      font-family: var(--display);
+      font-size: clamp(4rem, 10vw, 12rem);
+      color: rgba(168,230,61,0.04);
+      letter-spacing: 0.05em;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      white-space: nowrap;
+    }
+    .big-burger {
+      font-size: clamp(8rem, 15vw, 18rem);
+      filter: drop-shadow(0 0 60px rgba(168,230,61,0.15));
+      animation: tilt 6s ease-in-out infinite;
+      position: relative; z-index: 1;
+    }
+    @keyframes tilt {
+      0%,100%{transform:rotate(-5deg) translateY(0)} 50%{transform:rotate(5deg) translateY(-15px)}
+    }
+    .hero-stat-row {
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .hstat {
+      padding: 1.5rem 2rem;
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+    .hstat:nth-child(even) { border-right: none; }
+    .hstat-n {
+      font-family: var(--display);
+      font-size: 2.2rem; letter-spacing: 0.05em;
+      color: var(--lime); line-height: 1;
+    }
+    .hstat-l { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* MARQUEE */
+    .marquee-strip {
+      background: var(--lime);
+      color: var(--bg);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 0.8rem 0;
+      border-top: 2px solid var(--white);
+      border-bottom: 2px solid var(--white);
+    }
+    .marquee-track {
+      display: inline-block;
+      animation: marqueeScroll 18s linear infinite;
+    }
+    .marquee-track span {
+      font-family: var(--display);
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin: 0 2rem;
+    }
+    .marquee-track span.dot { color: rgba(0,0,0,0.3); }
+    @keyframes marqueeScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* SECTIONS */
+    section { position: relative; z-index: 1; }
+
+    h2 {
+      font-family: var(--display);
+      font-size: clamp(2.5rem, 5vw, 5.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 0.9;
+    }
+    h2 em { font-family: var(--serif); font-style: italic; color: var(--lime); display: block; }
+
+    .stag {
+      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--lime);
+      margin-bottom: 0.8rem;
+    }
+
+    /* NOSOTROS */
+    #nosotros {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-bottom: 2px solid var(--white);
+    }
+    .about-left {
+      padding: 6rem 5vw;
+      border-right: 2px solid var(--white);
+    }
+    .about-left p { font-size: 0.95rem; color: var(--muted); line-height: 1.85; margin-top: 2rem; margin-bottom: 1.2rem; }
+    .about-right {
+      display: grid; grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+    .acard {
+      padding: 3rem 2.5rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .acard:nth-child(even) { border-right: none; }
+    .acard:nth-child(3), .acard:nth-child(4) { border-bottom: none; }
+    .acard:hover { background: rgba(168,230,61,0.04); }
+    .acard::after {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: var(--lime);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .acard:hover::after { transform: scaleX(1); }
+    .acard-icon { font-size: 2.5rem; margin-bottom: 1.5rem; display: block; }
+    .acard-title { font-family: var(--display); font-size: 1.1rem; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.6rem; }
+    .acard-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+    /* CARTA */
+    #carta { border-bottom: 2px solid var(--white); }
+    .carta-top {
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: end; padding: 5rem 6vw 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .carta-top p { color: var(--muted); font-size: 0.9rem; line-height: 1.75; max-width: 420px; margin-top: 1rem; }
+
+    .carta-tabs {
+      display: flex; overflow-x: auto;
+      border-bottom: 1px solid var(--border);
+      scrollbar-width: none;
+    }
+    .carta-tabs::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      background: none; border: none; border-right: 1px solid var(--border);
+      color: var(--muted); font-family: var(--body); font-weight: 500;
+      font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 1rem 1.4rem; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+    .tab-btn:hover { color: var(--white); background: rgba(255,255,255,0.03); }
+    .tab-btn.active { background: var(--lime); color: var(--bg); font-weight: 600; }
+
+    .carta-body { padding: 4rem 6vw; }
+    .menu-section { display: none; }
+    .menu-section.active { display: block; animation: fadeSlide 0.3s ease; }
+    @keyframes fadeSlide { from{opacity:0;transform:translateX(12px)} to{opacity:1;transform:translateX(0)} }
+
+    .menu-cat-title {
+      font-family: var(--display); font-size: 2rem; letter-spacing: 0.05em;
+      text-transform: uppercase; margin-bottom: 0.4rem;
+      padding-bottom: 1.2rem; border-bottom: 2px solid var(--white);
+      display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .menu-cat-note { font-family: var(--body); font-size: 0.72rem; color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; font-style: italic; }
+
+    .price-header { display: flex; justify-content: flex-end; gap: 2.5rem; padding: 0.5rem 0; margin-bottom: 0.3rem; }
+    .ph { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); min-width: 55px; text-align: right; }
+
+    .menu-items { display: flex; flex-direction: column; margin-bottom: 3rem; }
+    .menu-item {
+      display: flex; align-items: baseline; justify-content: space-between;
+      padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+      gap: 1.5rem; transition: all 0.2s; cursor: default;
+    }
+    .menu-item:hover { padding-left: 0.8rem; background: rgba(168,230,61,0.04); margin: 0 -0.8rem; padding-right: 0.8rem; }
+    .item-name { font-family: var(--body); font-weight: 500; font-size: 0.95rem; color: var(--white); }
+    .item-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; margin-top: 0.2rem; font-style: italic; }
+    .item-prices { display: flex; gap: 2.5rem; flex-shrink: 0; }
+    .price-cell { min-width: 55px; text-align: right; }
+    .item-price { font-family: var(--display); font-size: 1.05rem; color: var(--lime); letter-spacing: 0.04em; }
+
+    .two-col-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+
+    /* REVIEWS */
+    #resenas { border-bottom: 2px solid var(--white); }
+    .reviews-top {
+      display: grid; grid-template-columns: auto 1fr;
+      border-bottom: 1px solid var(--border);
+    }
+    .rating-block {
+      padding: 4rem 5vw;
+      border-right: 2px solid var(--white);
+      display: flex; flex-direction: column; justify-content: center; gap: 0.5rem;
+    }
+    .rating-num {
+      font-family: var(--display);
+      font-size: clamp(5rem, 10vw, 9rem);
+      color: var(--lime); line-height: 1; letter-spacing: -0.02em;
+    }
+    .rating-stars { font-size: 1.3rem; color: var(--lime); letter-spacing: 0.15em; }
+    .rating-sub { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
+    .rating-sources { padding: 4rem 5vw; display: flex; flex-direction: column; justify-content: center; gap: 1.2rem; }
+    .rsrc { display: flex; align-items: center; gap: 1rem; }
+    .rsrc-name { font-family: var(--display); font-size: 1.1rem; letter-spacing: 0.06em; }
+    .rsrc-score { font-size: 0.85rem; color: var(--muted); }
+
+    .reviews-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border);
+    }
+    .rcard {
+      padding: 3rem 3vw;
+      border-right: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+    .rcard:last-child { border-right: none; }
+    .rcard:hover { background: rgba(168,230,61,0.03); }
+    .rq { font-family: var(--serif); font-size: 3.5rem; color: var(--lime); opacity: 0.4; line-height: 1; margin-bottom: 1rem; }
+    .rtext { font-size: 0.9rem; color: #8a9080; line-height: 1.8; font-style: italic; margin-bottom: 2rem; }
+    .rauthor { display: flex; align-items: center; gap: 0.9rem; }
+    .rav { width: 38px; height: 38px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 0.9rem; color: #fff; flex-shrink: 0; }
+    .rname { font-family: var(--display); font-size: 0.85rem; letter-spacing: 0.06em; }
+    .rsource { font-size: 0.75rem; color: var(--muted); }
+
+    /* INFO */
+    #info {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-bottom: 2px solid var(--white);
+    }
+    .info-left { padding: 6rem 5vw; border-right: 2px solid var(--white); }
+    .info-blocks { display: flex; flex-direction: column; gap: 0; margin-top: 3rem; }
+    .iblock {
+      display: flex; align-items: flex-start; gap: 1.5rem;
+      padding: 1.8rem 0; border-bottom: 1px solid var(--border);
+    }
+    .iblock:last-child { border-bottom: none; }
+    .iicon { font-size: 1.5rem; flex-shrink: 0; }
+    .ilabel { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lime); margin-bottom: 0.3rem; }
+    .ivalue { font-size: 0.95rem; color: var(--white); font-weight: 400; }
+    .isub { font-size: 0.82rem; color: var(--muted); margin-top: 0.15rem; }
+    .info-right {
+      position: relative; overflow: hidden; background: var(--dark);
+      display: flex; flex-direction: column;
+    }
+    .map-area {
+      flex: 1; position: relative;
+      background:
+        repeating-linear-gradient(0deg, rgba(168,230,61,0.025) 0, rgba(168,230,61,0.025) 1px, transparent 1px, transparent 55px),
+        repeating-linear-gradient(90deg, rgba(168,230,61,0.025) 0, rgba(168,230,61,0.025) 1px, transparent 1px, transparent 55px),
+        var(--dark);
+    }
+    .map-pin { position: absolute; top: 42%; left: 50%; transform: translate(-50%,-50%); font-size: 3.5rem; filter: drop-shadow(0 4px 20px rgba(168,230,61,0.4)); animation: mapb 2.2s ease-in-out infinite; z-index: 1; }
+    @keyframes mapb { 0%,100%{transform:translate(-50%,-50%)} 50%{transform:translate(-50%,-65%)} }
+    .map-pill { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); background: var(--lime); color: var(--bg); font-family: var(--display); font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.7rem 2rem; white-space: nowrap; z-index: 1; }
+    .info-ctas { padding: 2rem; display: flex; flex-direction: column; gap: 0.8rem; border-top: 1px solid var(--border); }
+    .btn-lime { background: var(--lime); color: var(--bg); font-family: var(--display); font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.9rem 1.5rem; border: none; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s; }
+    .btn-lime:hover { background: #bff54a; transform: translateY(-1px); }
+    .btn-ghost { background: transparent; color: var(--white); border: 1px solid var(--border); font-family: var(--display); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.9rem 1.5rem; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s; }
+    .btn-ghost:hover { border-color: var(--lime); color: var(--lime); }
+
+    /* FAQ */
+    #faq {
+      display: grid; grid-template-columns: 1fr 1.3fr;
+      border-bottom: 2px solid var(--white);
+    }
+    .faq-left {
+      padding: 6rem 5vw;
+      border-right: 2px solid var(--white);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .faq-left p { color: var(--muted); font-size: 0.9rem; line-height: 1.8; margin-top: 1.5rem; margin-bottom: 2.5rem; }
+    .faq-right { padding: 6rem 5vw; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q { display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 0; cursor: pointer; font-family: var(--body); font-weight: 500; font-size: 0.95rem; color: var(--white); transition: color 0.2s; gap: 1rem; }
+    .faq-q:hover { color: var(--lime); }
+    .faq-icon { font-family: var(--display); font-size: 1.2rem; color: var(--lime); flex-shrink: 0; transition: transform 0.3s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; font-size: 0.88rem; color: var(--muted); line-height: 1.8; }
+    .faq-item.open .faq-a { max-height: 200px; padding-bottom: 1.3rem; }
+
+    /* CTA */
+    #cta {
+      padding: 8rem 6vw;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 4rem;
+      background: var(--lime);
+      border-bottom: 2px solid var(--bg);
+      position: relative; overflow: hidden;
+    }
+    #cta::before {
+      content: 'YA';
+      position: absolute; right: -2rem; top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--display);
+      font-size: clamp(10rem, 25vw, 28rem);
+      color: rgba(0,0,0,0.06);
+      line-height: 1;
+      pointer-events: none;
+    }
+    #cta h2 { font-size: clamp(3rem, 6vw, 6.5rem); color: var(--bg); position: relative; z-index: 1; }
+    #cta h2 em { color: rgba(0,0,0,0.5); }
+    .cta-right { display: flex; flex-direction: column; gap: 1.2rem; position: relative; z-index: 1; }
+    .cta-right p { font-size: 1rem; color: rgba(0,0,0,0.6); line-height: 1.75; margin-bottom: 1rem; }
+    .btn-black { background: var(--bg); color: var(--white); font-family: var(--display); font-size: 1rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 1.1rem 2.5rem; border: none; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s; }
+    .btn-black:hover { background: #1a1a1a; transform: translateY(-2px); }
+    .btn-outline-dark { background: transparent; color: var(--bg); border: 2px solid var(--bg); font-family: var(--display); font-size: 1rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 1.1rem 2.5rem; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s; }
+    .btn-outline-dark:hover { background: var(--bg); color: var(--lime); }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      border-top: 1px solid var(--border);
+    }
+    .foot-col { padding: 3rem 4vw; border-right: 1px solid var(--border); }
+    .foot-col:last-child { border-right: none; }
+    .foot-logo-big { font-family: var(--display); font-size: 2rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .foot-logo-big em { color: var(--lime); font-style: normal; }
+    .foot-tagline { font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem; }
+    .foot-col-title { font-family: var(--display); font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
+    .foot-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .foot-list a { font-size: 0.88rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .foot-list a:hover { color: var(--lime); }
+    .foot-copy { grid-column: span 3; padding: 1.5rem 4vw; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
+
+    /* WA */
+    .wa-float { position: fixed; bottom: 2rem; right: 2rem; width: 54px; height: 54px; border-radius: 50%; background: #25d366; color: #fff; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; text-decoration: none; z-index: 400; box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: all 0.25s; }
+    .wa-float:hover { transform: scale(1.1); }
+    .wa-pulse { position: absolute; inset: -4px; border-radius: 50%; border: 2px solid rgba(37,211,102,0.35); animation: wap 2.5s ease infinite; }
+    @keyframes wap { 0%{transform:scale(1);opacity:1} 100%{transform:scale(1.7);opacity:0} }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* MOBILE */
+    @media(max-width:900px){
+      header { grid-template-columns: 1fr auto; }
+      .nav-left, .nav-right { display: none; }
+      .nav-right.show-cta { display: flex; }
+      #hero { min-height: auto; }
+      .hero-main { grid-template-columns: 1fr; }
+      .hero-text-col { border-right: none; border-bottom: 2px solid var(--white); padding: 4rem 6vw; }
+      .hero-right-col { display: none; }
+      #nosotros { grid-template-columns: 1fr; }
+      .about-left { border-right: none; border-bottom: 2px solid var(--white); }
+      .about-right { grid-template-columns: 1fr 1fr; }
+      #info { grid-template-columns: 1fr; }
+      .info-left { border-right: none; border-bottom: 2px solid var(--white); }
+      #faq { grid-template-columns: 1fr; }
+      .faq-left { border-right: none; border-bottom: 2px solid var(--white); }
+      #cta { grid-template-columns: 1fr; gap: 2rem; }
+      footer { grid-template-columns: 1fr; }
+      .foot-col { border-right: none; border-bottom: 1px solid var(--border); }
+      .foot-copy { grid-column: span 1; }
+      .two-col-menu { grid-template-columns: 1fr; }
+      .reviews-top { grid-template-columns: 1fr; }
+      .rating-block { border-right: none; border-bottom: 1px solid var(--border); }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .rcard { border-right: none; border-bottom: 1px solid var(--border); }
+      section { padding: 4rem 5vw; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  Posada de Llanes · Asturias
+  <span>·</span>
+  Abierto hasta las 00:00
+  <span>·</span>
+  985 40 77 85
+  <span>·</span>
+  4.5★ Google · +1.300 reseñas
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="nav-left">
+    <a href="#nosotros">Nosotros</a>
+    <a href="#carta">Carta</a>
+    <a href="#resenas">Reseñas</a>
+  </div>
+  <a href="#" class="logo-center"><em>El</em> Corner</a>
+  <div class="nav-right">
+    <a href="#info">Ubicación</a>
+    <a href="#faq">FAQ</a>
+    <a href="tel:+34985407785" class="nav-cta">Llamar</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-kicker">
+    <div class="kicker-item">Hamburguesas · Posada de Llanes</div>
+    <div class="kicker-item"><strong>Apto celíacos</strong> · Pan sin gluten disponible</div>
+    <div class="kicker-item">Abierto hoy · Cierra <strong>00:00</strong></div>
+  </div>
+  <div class="hero-main">
+    <div class="hero-text-col">
+      <div>
+        <div class="hero-eyebrow">Desde el primer bocado</div>
+        <h1>
+          La mejor<br>
+          <span class="italic-line">hamburguesa</span>
+          de Llanes
+        </h1>
+      </div>
+      <div class="hero-bottom">
+        <p class="hero-sub">Un rincón casi secreto junto al Casino de Posada de Llanes. Ingredientes frescos, recetas propias, trato de 10. Y sí, tenemos pan sin gluten.</p>
+        <div style="display:flex;flex-direction:column;gap:0.8rem">
+          <a href="#carta" class="btn-lime">🍔 Ver la carta</a>
+          <a href="#info" class="btn-ghost">📍 Cómo llegar</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right-col">
+      <div class="hero-burger-box">
+        <div class="big-burger">🍔</div>
+      </div>
+      <div class="hero-stat-row">
+        <div class="hstat"><div class="hstat-n">4.5★</div><div class="hstat-l">Google Maps</div></div>
+        <div class="hstat"><div class="hstat-n">+1.3K</div><div class="hstat-l">Reseñas</div></div>
+        <div class="hstat"><div class="hstat-n">GF</div><div class="hstat-l">Sin gluten</div></div>
+        <div class="hstat"><div class="hstat-n">00:00</div><div class="hstat-l">Cierre</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span>Hamburguesas artesanales</span><span class="dot">✦</span>
+    <span>Posada de Llanes</span><span class="dot">✦</span>
+    <span>Apto celíacos</span><span class="dot">✦</span>
+    <span>4.5 estrellas Google</span><span class="dot">✦</span>
+    <span>Hamburguesas auténticas</span><span class="dot">✦</span>
+    <span>Perritos · Bocadillos · Ensaladas</span><span class="dot">✦</span>
+    <span>El rincón de Llanes</span><span class="dot">✦</span>
+    <span>Hamburguesas artesanales</span><span class="dot">✦</span>
+    <span>Posada de Llanes</span><span class="dot">✦</span>
+    <span>Apto celíacos</span><span class="dot">✦</span>
+    <span>4.5 estrellas Google</span><span class="dot">✦</span>
+    <span>Hamburguesas auténticas</span><span class="dot">✦</span>
+    <span>Perritos · Bocadillos · Ensaladas</span><span class="dot">✦</span>
+    <span>El rincón de Llanes</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- NOSOTROS -->
+<section id="nosotros">
+  <div class="about-left reveal">
+    <div class="stag">Quiénes somos</div>
+    <h2>Un rincón<br><em>especial</em></h2>
+    <p>El Corner se esconde en el lateral del Casino de Posada de Llanes, casi pasa desapercibido detrás de una verja. Pero quien lo descubre, repite.</p>
+    <p>Desde hace años atendemos a nuestros clientes con el mismo cariño: producto fresco, cocina honesta y un trato que se nota. Somos celíacos-friendly porque nadie debería perderse una buena hamburguesa.</p>
+    <a href="#carta" class="btn-lime" style="margin-top:2rem;display:inline-flex;width:fit-content">Ver la carta →</a>
+  </div>
+  <div class="about-right">
+    <div class="acard reveal"><span class="acard-icon">🌿</span><div class="acard-title">Apto celíacos</div><p class="acard-desc">Pan sin gluten disponible. Adaptamos varios platos para que nadie se quede sin su hamburguesa.</p></div>
+    <div class="acard reveal"><span class="acard-icon">🤝</span><div class="acard-title">Trato de 10</div><p class="acard-desc">Equipo atento y amable. Valorado con 4.5 estrellas en Google por más de 1.300 personas.</p></div>
+    <div class="acard reveal"><span class="acard-icon">📍</span><div class="acard-title">Lugar único</div><p class="acard-desc">Escondido junto al Casino de Posada de Llanes. Un ambiente tranquilo que sorprende.</p></div>
+    <div class="acard reveal"><span class="acard-icon">🍔</span><div class="acard-title">Producto fresco</div><p class="acard-desc">Ingredientes de calidad, pan artesano y hamburguesas hechas al momento. Sin trampa.</p></div>
+  </div>
+</section>
+
+<!-- CARTA -->
+<section id="carta">
+  <div class="carta-top">
+    <div>
+      <div class="stag">Nuestra carta</div>
+      <h2>Lo que<br><em>servimos</em></h2>
+      <p>Hamburguesas clásicas y auténticas, perritos, ensaladas, bocadillos y platos combinados. Pregunta por la carta de postres.</p>
+    </div>
+    <a href="tel:+34985407785" class="btn-lime">📞 Reservar mesa</a>
+  </div>
+  <div class="carta-tabs">
+    <button class="tab-btn active" onclick="showTab('hclas',this)">🍔 Clásicas</button>
+    <button class="tab-btn" onclick="showTab('haut',this)">🔥 Auténticas</button>
+    <button class="tab-btn" onclick="showTab('perritos',this)">🌭 Perritos</button>
+    <button class="tab-btn" onclick="showTab('entradas',this)">🍟 Entradas</button>
+    <button class="tab-btn" onclick="showTab('ensaladas',this)">🥗 Ensaladas</button>
+    <button class="tab-btn" onclick="showTab('sandwiches',this)">🥪 Sandwiches</button>
+    <button class="tab-btn" onclick="showTab('bocadillos',this)">🥖 Bocadillos</button>
+    <button class="tab-btn" onclick="showTab('combinados',this)">🍽️ Combinados</button>
+    <button class="tab-btn" onclick="showTab('extras',this)">🧂 Salsas & Extras</button>
+  </div>
+  <div class="carta-body">
+
+    <div class="menu-section active" id="hclas">
+      <div class="menu-cat-title">Hamburguesas Clásicas <span class="menu-cat-note">La carne puede ser ternera, duck o pollo</span></div>
+      <div class="price-header"><span class="ph">Ternera</span><span class="ph">Pollo</span></div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-left"><div class="item-name">Sola</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">4,00€</span></div><div class="price-cell"><span class="item-price">3,50€</span></div></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Con queso</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">4,50€</span></div><div class="price-cell"><span class="item-price">4,00€</span></div></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Con queso y bacon</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">5,00€</span></div><div class="price-cell"><span class="item-price">4,50€</span></div></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Completa</div><div class="item-desc">Lechuga, tomate, cebolla y huevo</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">5,50€</span></div><div class="price-cell"><span class="item-price">6,00€</span></div></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">"Corner"</div><div class="item-desc">Lechuga, tomate, cebolla picanna y bacon</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">6,00€</span></div><div class="price-cell"><span class="item-price">6,50€</span></div></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">XL Cheddar</div><div class="item-desc">Lechuga, tomate, cebolla picanna y bacon</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">6,50€</span></div><div class="price-cell"><span class="item-price">7,00€</span></div></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">XL (Seis capas)</div><div class="item-desc">Lechuga, tomate, cebolla, queso cheddar, bacon, lomo y huevo</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">8,00€</span></div><div class="price-cell"><span class="item-price">8,50€</span></div></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">XXL</div><div class="item-desc">Lechuga, tomate, cebolla picanna, bacon, lomo y huevo</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">8,00€</span></div><div class="price-cell"><span class="item-price">8,50€</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="menu-section" id="haut">
+      <div class="menu-cat-title">Hamburguesas Auténticas <span class="menu-cat-note">Receta fija · Solo se elige el tipo de pan</span></div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-left"><div class="item-name">DAY</div><div class="item-desc">Pollo, bacon, huevo, lechuga y tomate</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">4,50€</span></div></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">URBAN</div><div class="item-desc">Ternera, jamón serrano, queso de cabra y cebolla pochada</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">6,50€</span></div></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">JIMMY EXTREME</div><div class="item-desc">Cerdo, queso brie, cheddar, bacon</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">7,50€</span></div></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">CORNER JUANITO</div><div class="item-desc">Jamón de ternera, lechuga, tomate, jalapeños y salsa al estilo del chef</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">7,50€</span></div></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">SUPER-BURGER</div><div class="item-desc">Dos hambis burguer, queso cheddar fundido, bacon crujiente y allioli. Pan brioche.</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">7,50€</span></div></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">POLLO PERI</div><div class="item-desc">Pollo jugoso asado con toque de barbacoa, queso brie, pepinillos, lechuga fresca, tomate, cebolla y mezcla de salsas. Pan brioche.</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">9,50€</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="menu-section" id="perritos">
+      <div class="menu-cat-title">Perritos</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-left"><div class="item-name">Solo</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">3,50€</span></div></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Bacon y queso</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">4,00€</span></div></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">"Corner"</div><div class="item-desc">Cebolla, repollo, patatas paja y 3 salsas</div></div><div class="item-prices"><div class="price-cell"><span class="item-price">4,50€</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="menu-section" id="entradas">
+      <div class="two-col-menu">
+        <div>
+          <div class="menu-cat-title" style="font-size:1.4rem">Entradas</div>
+          <div class="menu-items">
+            <div class="menu-item"><div class="item-left"><div class="item-name">Croquetas</div></div><div class="item-prices"><span class="item-price">6,00€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Aros de cebolla</div></div><div class="item-prices"><span class="item-price">6,00€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Alitas de pollo</div></div><div class="item-prices"><span class="item-price">6,50€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Nuggets de pollo</div></div><div class="item-prices"><span class="item-price">6,50€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Nuggets chili</div></div><div class="item-prices"><span class="item-price">6,50€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Chorizo de pollo</div></div><div class="item-prices"><span class="item-price">6,50€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Nachos cheddar y guacamole</div></div><div class="item-prices"><span class="item-price">7,00€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Combo entradas</div><div class="item-desc">Patatas + salsa, alitas, aros, nuggets y nuggets chili</div></div><div class="item-prices"><span class="item-price">12,00€</span></div></div>
+          </div>
+        </div>
+        <div>
+          <div class="menu-cat-title" style="font-size:1.4rem">Patatas</div>
+          <div class="menu-items">
+            <div class="menu-item"><div class="item-left"><div class="item-name">Patatas fritas</div></div><div class="item-prices"><span class="item-price">—</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Patatas bravas</div></div><div class="item-prices"><span class="item-price">—</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Patatas al caldero</div></div><div class="item-prices"><span class="item-price">—</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Patatas ranchadas</div></div><div class="item-prices"><span class="item-price">8,00€</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-section" id="ensaladas">
+      <div class="menu-cat-title">Ensaladas</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-left"><div class="item-name">Ensalada verde</div><div class="item-desc">Lechuga, tomate y cebolla</div></div><div class="item-prices"><span class="item-price">4,50€</span></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Ensalada mixta</div><div class="item-desc">Lechuga, tomate, cebolla, bonito, aceitunas y espárragos</div></div><div class="item-prices"><span class="item-price">5,50€</span></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Ensalada "Corner"</div><div class="item-desc">Lechuga, tomate, cebolla y queso de cabra a la plancha</div></div><div class="item-prices"><span class="item-price">7,50€</span></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Ensalada "César"</div><div class="item-desc">Lechuga, pollo, salsa César, picatostes y parmesano</div></div><div class="item-prices"><span class="item-price">8,00€</span></div></div>
+      </div>
+    </div>
+
+    <div class="menu-section" id="sandwiches">
+      <div class="menu-cat-title">Sandwiches</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-left"><div class="item-name">Mixto</div><div class="item-desc">Jamón york y queso</div></div><div class="item-prices"><span class="item-price">3,50€</span></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Vegetal</div><div class="item-desc">Jamón york, queso, lechuga, tomate y cebolla</div></div><div class="item-prices"><span class="item-price">4,00€</span></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">"Corner"</div><div class="item-desc">Jamón york, queso, lechuga, tomate, cebolla, bacon y huevo a la plancha</div></div><div class="item-prices"><span class="item-price">5,00€</span></div></div>
+      </div>
+    </div>
+
+    <div class="menu-section" id="bocadillos">
+      <div class="menu-cat-title">Bocadillos</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-left"><div class="item-name">Filete de pollo con queso</div></div><div class="item-prices"><span class="item-price">5,00€</span></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Pechuga de pollo, lechuga y mayonesa</div></div><div class="item-prices"><span class="item-price">10,00€</span></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Lomo y queso</div></div><div class="item-prices"><span class="item-price">5,00€</span></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Jamón serrano (natural o plancha)</div></div><div class="item-prices"><span class="item-price">5,00€</span></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Bacon y queso</div></div><div class="item-prices"><span class="item-price">5,00€</span></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Especial</div><div class="item-desc">Patatas + huevo / pollo / lomo / bacon / serrano</div></div><div class="item-prices"><span class="item-price">7,50€</span></div></div>
+      </div>
+    </div>
+
+    <div class="menu-section" id="combinados">
+      <div class="menu-cat-title">Platos Combinados</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-left"><div class="item-name">Lomo, patatas y huevo</div></div><div class="item-prices"><span class="item-price">8,00€</span></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Pechuga de pollo, patatas y huevo</div></div><div class="item-prices"><span class="item-price">9,00€</span></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Bacon, patatas y huevo</div></div><div class="item-prices"><span class="item-price">9,00€</span></div></div>
+        <div class="menu-item"><div class="item-left"><div class="item-name">Jamón, patatas y huevo</div></div><div class="item-prices"><span class="item-price">8,00€</span></div></div>
+      </div>
+    </div>
+
+    <div class="menu-section" id="extras">
+      <div class="two-col-menu">
+        <div>
+          <div class="menu-cat-title" style="font-size:1.4rem">Salsas</div>
+          <div class="menu-items">
+            <div class="menu-item"><div class="item-left"><div class="item-name">Alioli</div></div><div class="item-prices"><span class="item-price">2,00€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Brava</div></div><div class="item-prices"><span class="item-price">2,00€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Cheddar</div></div><div class="item-prices"><span class="item-price">2,50€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Chimichurri</div></div><div class="item-prices"><span class="item-price">2,00€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Mostaza y más…</div></div><div class="item-prices"><span class="item-price">2,00€</span></div></div>
+          </div>
+          <div class="menu-cat-title" style="font-size:1.4rem;margin-top:2.5rem">Postres</div>
+          <div class="menu-items">
+            <div class="menu-item"><div class="item-left"><div class="item-name">Postres y helados</div><div class="item-desc">Ver carta en el local · Variedad de temporada</div></div></div>
+          </div>
+        </div>
+        <div>
+          <div class="menu-cat-title" style="font-size:1.4rem">Ingredientes extra</div>
+          <div class="menu-items">
+            <div class="menu-item"><div class="item-left"><div class="item-name">Cebolla pochada</div></div><div class="item-prices"><span class="item-price">1,00€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Jalapeños</div></div><div class="item-prices"><span class="item-price">1,50€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Pepinillos</div></div><div class="item-prices"><span class="item-price">1,50€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Queso</div></div><div class="item-prices"><span class="item-price">1,50€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Queso cheddar</div></div><div class="item-prices"><span class="item-price">2,00€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Queso de cabra</div></div><div class="item-prices"><span class="item-price">2,00€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Bacon</div></div><div class="item-prices"><span class="item-price">2,00€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Jamón serrano</div></div><div class="item-prices"><span class="item-price">2,00€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Bacon a la plancha</div></div><div class="item-prices"><span class="item-price">2,50€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Huevo</div></div><div class="item-prices"><span class="item-price">1,50€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Patatas paja</div></div><div class="item-prices"><span class="item-price">2,00€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Burguer ternera</div></div><div class="item-prices"><span class="item-price">2,50€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Burguer pollo</div></div><div class="item-prices"><span class="item-price">3,00€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Pan brioche</div></div><div class="item-prices"><span class="item-price">2,00€</span></div></div>
+            <div class="menu-item"><div class="item-left"><div class="item-name">Pan sin gluten</div></div><div class="item-prices"><span class="item-price">2,00€</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- RESEÑAS -->
+<section id="resenas">
+  <div class="reviews-top">
+    <div class="rating-block reveal">
+      <div class="stag">Valoraciones</div>
+      <div class="rating-num">4.5</div>
+      <div class="rating-stars">★★★★½</div>
+      <div class="rating-sub">+1.300 reseñas verificadas</div>
+    </div>
+    <div class="rating-sources reveal">
+      <div class="stag">Plataformas</div>
+      <div class="rsrc"><span style="font-size:1.3rem">🔍</span><div><div class="rsrc-name">Google Maps</div><div class="rsrc-score">4.5 / 5 · +1.300 reseñas</div></div></div>
+      <div class="rsrc"><span style="font-size:1.3rem">🟢</span><div><div class="rsrc-name">Tripadvisor</div><div class="rsrc-score">Muy valorado en Llanes</div></div></div>
+      <div class="rsrc"><span style="font-size:1.3rem">📋</span><div><div class="rsrc-name">Menulist</div><div class="rsrc-score">4 / 5</div></div></div>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="rcard reveal">
+      <div class="rq">"</div>
+      <p class="rtext">Hemos comido en El Corner y la experiencia ha sido muy positiva. Ambiente agradable y tranquilo, servicio atento y amable, y la comida muy buena. Sin duda repetiremos.</p>
+      <div class="rauthor"><div class="rav">PA</div><div><div class="rname">Patricia A. D.</div><div class="rsource">Google · Hace 1 mes · ★★★★★</div></div></div>
+    </div>
+    <div class="rcard reveal">
+      <div class="rq">"</div>
+      <p class="rtext">Da gusto parar en El Corner. Mi mujer es celíaca y comemos sin ningún problema. Ya hemos estado varias veces durante varios años y siempre igual de bien.</p>
+      <div class="rauthor"><div class="rav">TC</div><div><div class="rname">Tocolomoxo</div><div class="rsource">Google · Hace 5 meses · ★★★★★</div></div></div>
+    </div>
+    <div class="rcard reveal">
+      <div class="rq">"</div>
+      <p class="rtext">Si te gustan los sitios únicos, este es un bonito rincón. Se encuentra en el lateral del Casino, casi pasa desapercibido detrás de una verja. Te sorprende gratamente.</p>
+      <div class="rauthor"><div class="rav">ML</div><div><div class="rname">Reseñador Menulist</div><div class="rsource">Menulist · ★★★★☆</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO -->
+<section id="info">
+  <div class="info-left reveal">
+    <div class="stag">Dónde estamos</div>
+    <h2>Ven a<br><em>vernos</em></h2>
+    <div class="info-blocks">
+      <div class="iblock"><span class="iicon">📍</span><div><div class="ilabel">Dirección</div><div class="ivalue">Av. la Vega de Santiago, 28, Bajo 4</div><div class="isub">33594 Posada de Llanes, Asturias · Junto al Casino</div></div></div>
+      <div class="iblock"><span class="iicon">📞</span><div><div class="ilabel">Teléfono</div><div class="ivalue"><a href="tel:+34985407785" style="color:inherit;text-decoration:none">985 40 77 85</a></div><div class="isub">Llamadas y reservas</div></div></div>
+      <div class="iblock"><span class="iicon">🕐</span><div><div class="ilabel">Horario</div><div class="ivalue">Abierto · Cierra a las 00:00</div><div class="isub">Cocina desde las 13:00 h</div></div></div>
+    </div>
+  </div>
+  <div class="info-right">
+    <div class="map-area">
+      <div class="map-pin">📍</div>
+      <div class="map-pill">El Corner · Posada de Llanes</div>
+    </div>
+    <div class="info-ctas">
+      <a href="https://wa.me/34985407785" class="btn-lime">💬 Escribir por WhatsApp</a>
+      <a href="tel:+34985407785" class="btn-ghost">📞 Llamar ahora</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-left">
+    <div>
+      <div class="stag">FAQ</div>
+      <h2>Dudas<br><em>frecuentes</em></h2>
+      <p>¿No encuentras lo que buscas? Llámanos al 985 40 77 85 o pásate por el local.</p>
+    </div>
+    <a href="tel:+34985407785" class="btn-lime" style="display:inline-flex;width:fit-content">📞 Llamar ahora</a>
+  </div>
+  <div class="faq-right">
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Cuál es el horario?<span class="faq-icon">+</span></div><div class="faq-a">Abrimos todos los días. La cocina empieza a las 13:00 h y cerramos a medianoche (00:00 h). Para horarios especiales en festivos, llámanos antes.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Tenéis opciones para celíacos?<span class="faq-icon">+</span></div><div class="faq-a">Sí. Disponemos de pan sin gluten y adaptamos varios platos de la carta. Consúltanos al llegar o por teléfono y te informamos de todas las opciones.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Hacéis reservas?<span class="faq-icon">+</span></div><div class="faq-a">Puedes llamarnos al 985 40 77 85. En temporada alta (verano) recomendamos reservar con antelación para asegurar mesa.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Dónde estáis exactamente?<span class="faq-icon">+</span></div><div class="faq-a">Estamos en Av. la Vega de Santiago 28, Bajo 4, Posada de Llanes. En el lateral del Casino, detrás de una verja. ¡Vale la pena buscarnos!</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Puedo personalizar la hamburguesa?<span class="faq-icon">+</span></div><div class="faq-a">En las clásicas sí puedes elegir ingredientes y añadir extras. Las auténticas tienen receta fija, solo se elige el tipo de pan. Tenemos una lista de ingredientes extra disponible.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">¿Hay aparcamiento cerca?<span class="faq-icon">+</span></div><div class="faq-a">Sí, hay varias zonas de aparcamiento en los alrededores del Casino de Posada de Llanes. En verano puede haber más afluencia, pero siempre se encuentra sitio cercano.</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <h2>¿Tienes<br><em>hambre ya?</em></h2>
+  <div class="cta-right">
+    <p>Ven a vernos o llámanos para reservar tu mesa. Te esperamos en el rincón de Posada de Llanes.</p>
+    <a href="tel:+34985407785" class="btn-black">📞 985 40 77 85</a>
+    <a href="#carta" class="btn-outline-dark">🍔 Ver la carta</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-col">
+    <div class="foot-logo-big"><em>El</em> Corner</div>
+    <div class="foot-tagline">Hamburguesas · Posada de Llanes, Asturias</div>
+  </div>
+  <div class="foot-col">
+    <div class="foot-col-title">Navegación</div>
+    <ul class="foot-list">
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#carta">La carta</a></li>
+      <li><a href="#resenas">Reseñas</a></li>
+      <li><a href="#info">Dónde estamos</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </div>
+  <div class="foot-col">
+    <div class="foot-col-title">Contacto</div>
+    <ul class="foot-list">
+      <li><a href="tel:+34985407785">985 40 77 85</a></li>
+      <li><a href="https://wa.me/34985407785">WhatsApp</a></li>
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">Facebook</a></li>
+    </ul>
+  </div>
+  <div class="foot-copy">
+    <span>© 2025 El Corner · Posada de Llanes, Asturias</span>
+    <span>Hecho con 🍔 en Asturias</span>
+  </div>
+</footer>
+
+<a href="https://wa.me/34985407785" class="wa-float" title="WhatsApp"><div class="wa-pulse"></div>💬</a>
+
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!open) item.classList.add('open');
+  }
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), (i % 3) * 100); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
